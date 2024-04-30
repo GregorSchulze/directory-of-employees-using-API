@@ -83,19 +83,9 @@ function displayModal(index) {
     `;
   overlay.classList.remove("hidden");
   modalContainer.innerHTML = modalHTML;
-
-  // Event-Listener für die Buttons hinzufügen
-  const modalPrevBtn = document.getElementById("modal-prev-btn");
-  const modalNextBtn = document.getElementById("modal-next-btn");
-
-  modalPrevBtn.addEventListener("click", () => showPrevEmployee(index));
-  modalNextBtn.addEventListener("click", () => showNextEmployee(index));
 }
 
-/* ===================================== 
-   Close the Modal
-======================================== */
-
+// Eventlistener
 gridContainer.addEventListener("click", (e) => {
   if (e.target !== gridContainer) {
     // select the card element based on its proximity to actual element
@@ -106,7 +96,17 @@ gridContainer.addEventListener("click", (e) => {
   }
 });
 
+/* ===================================== 
+   Close the Modal
+======================================== */
+
+// Close the Modal when clicking the close button
 modalClose.addEventListener("click", () => {
+  overlay.classList.add("hidden");
+});
+
+// Close the Modal when clicking the overlay
+overlay.addEventListener("click", () => {
   overlay.classList.add("hidden");
 });
 
