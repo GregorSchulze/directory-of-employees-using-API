@@ -11,10 +11,6 @@ const overlay = document.querySelector(".overlay");
 const modalContainer = document.querySelector(".modal-content");
 const modalClose = document.querySelector(".modal-close");
 
-// Button
-const modalPrev = document.getElementById("modal-prev");
-const modalNext = document.getElementById("modal-next");
-
 /* ===================================== 
    fetch data from API
 ======================================== */
