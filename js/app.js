@@ -3,12 +3,17 @@
 ======================================== */
 
 let employees = [];
+let currentIndex = 0;
 const urlAPI = `https://randomuser.me/api/?results=12&inc=name, picture,
 email, location, phone, dob &noinfo &nat=US`;
 const gridContainer = document.querySelector(".grid-container");
 const overlay = document.querySelector(".overlay");
 const modalContainer = document.querySelector(".modal-content");
 const modalClose = document.querySelector(".modal-close");
+
+// Button
+const modalPrev = document.getElementById("modal-prev");
+const modalNext = document.getElementById("modal-next");
 
 /* ===================================== 
    fetch data from API
@@ -51,9 +56,7 @@ function displayEmployees(employeeData) {
 /* ===================================== 
    Display the Employees
 ======================================== */
-
 function displayModal(index) {
-  // use object destructuring make our template literal cleaner
   let {
     name,
     dob,
@@ -77,9 +80,20 @@ function displayModal(index) {
       <p>Birthday:
       ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
     </div>
+    <div class="modal-btn-container">
+      <button type="button" id="modal-prev-btn" class="modal-prev btn" aria-label="Previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+      <button type="button" id="modal-next-btn" class="modal-next btn" aria-label="Next"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+    </div>
     `;
   overlay.classList.remove("hidden");
   modalContainer.innerHTML = modalHTML;
+
+  // Event-Listener für die Buttons hinzufügen
+  const modalPrevBtn = document.getElementById("modal-prev-btn");
+  const modalNextBtn = document.getElementById("modal-next-btn");
+
+  modalPrevBtn.addEventListener("click", () => showPrevEmployee(index));
+  modalNextBtn.addEventListener("click", () => showNextEmployee(index));
 }
 
 /* ===================================== 
@@ -98,4 +112,45 @@ gridContainer.addEventListener("click", (e) => {
 
 modalClose.addEventListener("click", () => {
   overlay.classList.add("hidden");
+});
+
+/* ===================================== 
+    Toggle between the previous and next employee
+======================================== */
+const arrowRight = document.querySelector(".right-arrow");
+const arrowLeft = document.querySelector(".left-arrow");
+
+arrowRight.addEventListener("click", () => {
+  if (currentIndex !== employees.length - 1) {
+    currentIndex += 1;
+    displayModal(currentIndex);
+  }
+});
+
+arrowLeft.addEventListener("click", () => {
+  if (currentIndex !== 0) {
+    currentIndex -= 1;
+    displayModal(currentIndex);
+  }
+});
+
+/* ===================================== 
+   Add a search form
+======================================== */
+const searchForm = document.getElementById("search-form");
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("input", (e) => {
+  const searchTerm = e.target.value.trim().toLowerCase();
+
+  const filteredEmployees = employees.filter((employee) => {
+    const fullName = `${employee.name.first.toLowerCase()} ${employee.name.last.toLowerCase()}`;
+    return fullName.includes(searchTerm);
+  });
+
+  displayEmployees(filteredEmployees);
+
+  if (searchTerm === "") {
+    displayEmployees(employees);
+  }
 });
