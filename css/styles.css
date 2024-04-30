@@ -3,12 +3,11 @@
 ======================================== */
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
+  margin: 0 auto;
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -25,17 +24,19 @@ body {
 .grid-container {
   width: 95%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
   gap: 30px;
 }
 
-/* Header */
 .header {
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  flex-direction: column;
   align-items: center;
+  text-align: center;
   width: 100%;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -60,21 +61,24 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
   color: #333;
+  transition: 0.5s;
+}
+
+#search:focus {
+  outline: none;
+  border-color: rgb(52, 52, 52);
+  box-shadow: 0 0 5px rgb(52, 52, 52);
 }
 
 #search::placeholder {
   color: #999;
 }
 
-/* Card */
-
 .card {
   width: 90%;
-  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 1rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border: 1px solid #d9d9d9;
   border-radius: 10px;
@@ -88,29 +92,28 @@ body {
   transform: scale(1.1);
 }
 
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-right: 2rem;
+}
+
 .name {
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 10px;
   color: rgb(51, 51, 51);
 }
 
 .email,
 .address,
 .text-container p {
-  font-size: 15px;
+  font-size: 12px;
   color: rgb(140, 140, 140);
 }
 
-.avatar {
-  width: 25%;
-  max-width: 300px;
-  border-radius: 50%;
-  /* padding-right: 0.5rem; */
-}
-
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -120,17 +123,13 @@ body {
 
 .modal-container {
   width: 350px;
-  margin: 15% auto;
+  margin: 60% auto;
   padding: 2rem 1rem;
   position: relative;
   text-align: center;
   background: #fff;
   border: 1px solid #778;
   border-radius: 10px;
-}
-
-.text-container p {
-  padding: 0.25rem;
 }
 
 hr {
@@ -181,9 +180,53 @@ hr {
 }
 
 /* ===================================== 
-   Main Styles
-======================================== */
-
-/* ===================================== 
    Media Queries
 ======================================== */
+
+@media screen and (min-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+  }
+  .card {
+    width: 100%;
+  }
+
+  .avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  .modal-container {
+    margin: 25% auto;
+  }
+}
+
+@media screen and (min-width: 1028px) {
+  .main {
+    padding: 2rem;
+  }
+
+  .header {
+    padding: 2rem;
+  }
+
+  .header-text h1 {
+    font-size: 28px;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .modal-container {
+    margin: 25% auto;
+  }
+}
