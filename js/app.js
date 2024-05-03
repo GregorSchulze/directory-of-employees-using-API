@@ -106,8 +106,17 @@ modalClose.addEventListener("click", () => {
 });
 
 // Close the Modal when clicking the overlay
-overlay.addEventListener("click", () => {
-  overlay.classList.add("hidden");
+overlay.addEventListener("click", (event) => {
+  if (event.target === overlay) {
+    overlay.classList.add("hidden");
+  }
+});
+
+// Close the Modal when clicking escape key
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    overlay.classList.add("hidden");
+  }
 });
 
 /* ===================================== 
