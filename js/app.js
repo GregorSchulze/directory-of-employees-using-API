@@ -23,25 +23,22 @@ fetch(urlAPI)
 function displayEmployees(employeeData) {
   employees = employeeData;
 
-  // store the employee HTML as we create it
   let employeeHTML = "";
 
-  // loop through each employee and create HTML markup
   employees.forEach((employee, index) => {
     let name = employee.name;
     let email = employee.email;
     let city = employee.location.city;
     let picture = employee.picture;
 
-    // template literals make this so much cleaner!
     employeeHTML += `
     <div class="card" data-index="${index}">
-    <img class="avatar" src="${picture.large}" />
-    <div class="text-container">
-    <h2 class="name">${name.first} ${name.last}</h2>
-    <p class="email">${email}</p>
-    <p class="address">${city}</p>
-    </div>
+      <img class="avatar" src="${picture.large}" />
+      <div class="text-container">
+        <h2 class="name">${name.first} ${name.last}</h2>
+        <p class="email">${email}</p>
+        <p class="address">${city}</p>
+      </div>
     </div>
     `;
   });
@@ -53,16 +50,17 @@ function displayEmployees(employeeData) {
    Display the Employees
 ======================================== */
 function displayModal(index) {
-  let {
-    name,
-    dob,
-    phone,
-    email,
-    location: { city, street, state, postcode },
-    picture,
-  } = employees[index];
-
-  let date = new Date(dob.date);
+  let employee = employees[index];
+  let name = employee.name;
+  let email = employee.email;
+  let city = employee.location.city;
+  let picture = employee.picture;
+  let street = employee.location.street;
+  let state = employee.location.state;
+  let postcode = employee.location.postcode;
+  let dob = employee.dob.date;
+  let phone = employee.phone;
+  let date = new Date(dob);
 
   const modalHTML = `
     <img class="avatar" src="${picture.large}" />
@@ -72,23 +70,18 @@ function displayModal(index) {
       <p class="address">${city}</p>
       <hr />
       <p>${phone}</p>
-      <p class="address">${street}, ${state} ${postcode}</p>
+      <p class="address">${street.name}, ${state} ${postcode}</p>
       <p>Birthday:
       ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}</p>
-    </div>
-    <div class="modal-btn-container">
-      <button type="button" id="modal-prev-btn" class="modal-prev btn" aria-label="Previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-      <button type="button" id="modal-next-btn" class="modal-next btn" aria-label="Next"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
     </div>
     `;
   overlay.classList.remove("hidden");
   modalContainer.innerHTML = modalHTML;
 }
 
-// Eventlistener
+// Eventlistener Open a Modal
 gridContainer.addEventListener("click", (e) => {
   if (e.target !== gridContainer) {
-    // select the card element based on its proximity to actual element
     const card = e.target.closest(".card");
     const index = card.getAttribute("data-index");
 
@@ -142,20 +135,42 @@ arrowLeft.addEventListener("click", () => {
 /* ===================================== 
    Add a search form
 ======================================== */
-const searchForm = document.getElementById("search-form");
-const searchInput = document.getElementById("search");
 
-searchInput.addEventListener("input", (e) => {
-  const searchTerm = e.target.value.trim().toLowerCase();
+function displayFilteredEmployees(filteredEmployees) {
+  let filteredEmployeeHTML = "";
+
+  filteredEmployees.forEach((employee, index) => {
+    let name = employee.name;
+    let email = employee.email;
+    let city = employee.location.city;
+    let picture = employee.picture;
+
+    filteredEmployeeHTML += `
+    <div class="card" data-index="${index}">
+      <img class="avatar" src="${picture.large}" />
+      <div class="text-container">
+        <h2 class="name">${name.first} ${name.last}</h2>
+        <p class="email">${email}</p>
+        <p class="address">${city}</p>
+      </div>
+    </div>
+    `;
+  });
+
+  gridContainer.innerHTML = filteredEmployeeHTML;
+}
+
+const searchForm = document.getElementById("search-container");
+const input = document.getElementById("searchbar");
+const elements = document.getElementsByClassName("card");
+
+input.addEventListener("keyup", (e) => {
+  const searchTerm = e.target.value.toLowerCase();
 
   const filteredEmployees = employees.filter((employee) => {
     const fullName = `${employee.name.first.toLowerCase()} ${employee.name.last.toLowerCase()}`;
     return fullName.includes(searchTerm);
   });
 
-  displayEmployees(filteredEmployees);
-
-  if (searchTerm === "") {
-    displayEmployees(employees);
-  }
+  displayFilteredEmployees(filteredEmployees);
 });
