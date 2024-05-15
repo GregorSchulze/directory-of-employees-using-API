@@ -20,6 +20,10 @@ fetch(urlAPI)
   .then(displayEmployees)
   .catch((err) => console.log(err));
 
+/* ===================================== 
+   Display the Employees
+======================================== */
+
 function displayEmployees(employeeData) {
   employees = employeeData;
 
@@ -47,7 +51,7 @@ function displayEmployees(employeeData) {
 }
 
 /* ===================================== 
-   Display the Employees
+   Display the Modal
 ======================================== */
 function displayModal(index) {
   let employee = employees[index];
@@ -93,19 +97,19 @@ gridContainer.addEventListener("click", (e) => {
    Close the Modal
 ======================================== */
 
-// Close the Modal when clicking the close button
+// close button
 modalClose.addEventListener("click", () => {
   overlay.classList.add("hidden");
 });
 
-// Close the Modal when clicking the overlay
+// clicking the overlay
 overlay.addEventListener("click", (event) => {
   if (event.target === overlay) {
     overlay.classList.add("hidden");
   }
 });
 
-// Close the Modal when clicking escape key
+// escape key
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     overlay.classList.add("hidden");
@@ -135,7 +139,23 @@ arrowLeft.addEventListener("click", () => {
 /* ===================================== 
    Add a search form
 ======================================== */
+// Filter Employees
+const searchForm = document.getElementById("search-container");
+const input = document.getElementById("searchbar");
+const elements = document.getElementsByClassName("card");
 
+input.addEventListener("keyup", (e) => {
+  const searchTerm = e.target.value.toLowerCase();
+
+  const filteredEmployees = employees.filter((employee) => {
+    const fullName = `${employee.name.first.toLowerCase()} ${employee.name.last.toLowerCase()}`;
+    return fullName.includes(searchTerm);
+  });
+
+  displayFilteredEmployees(filteredEmployees);
+});
+
+// Display Filtered Employees
 function displayFilteredEmployees(filteredEmployees) {
   let filteredEmployeeHTML = "";
 
@@ -159,18 +179,3 @@ function displayFilteredEmployees(filteredEmployees) {
 
   gridContainer.innerHTML = filteredEmployeeHTML;
 }
-
-const searchForm = document.getElementById("search-container");
-const input = document.getElementById("searchbar");
-const elements = document.getElementsByClassName("card");
-
-input.addEventListener("keyup", (e) => {
-  const searchTerm = e.target.value.toLowerCase();
-
-  const filteredEmployees = employees.filter((employee) => {
-    const fullName = `${employee.name.first.toLowerCase()} ${employee.name.last.toLowerCase()}`;
-    return fullName.includes(searchTerm);
-  });
-
-  displayFilteredEmployees(filteredEmployees);
-});
