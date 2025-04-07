@@ -118,17 +118,25 @@ body {
   right: 0;
   bottom: 0;
   background: rgba(49, 49, 49, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-container {
-  width: 350px;
-  margin: 60% auto;
+  width: 90%;
+  max-width: 350px;
+  max-height: 80vh;
+  margin: 0 auto;
   padding: 2rem 1rem;
   position: relative;
   text-align: center;
   background: #fff;
   border: 1px solid #778;
   border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
 }
 
 hr {
@@ -203,9 +211,9 @@ hr {
     height: 90px;
   }
 
-  .modal-container {
+  /* .modal-container {
     margin: 25% auto;
-  }
+  } */
 }
 
 @media screen and (min-width: 1028px) {
@@ -225,7 +233,7 @@ hr {
     padding: 1.5rem;
   }
 
-  .modal-container {
-    margin: 25% auto;
-  }
+  /* .modal-container {
+    margin: 12.5% auto;
+  } */
 }
